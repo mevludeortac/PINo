@@ -21,6 +21,16 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     //seçilen konumun enlem ve boylamını almak için
     var choosenLatitude = Double()
     var choosenLongitude = Double()
+    
+    var selectedTitle = ""
+    var selectedTitleID: UUID?
+    
+    var annotationTitle = ""
+    var annotationSubtitle = ""
+    var annotationLatitude = Double()
+    var annotationLongitude = Double()
+
+
      
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +46,52 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(chooseLocation(gestureRecognizer:)))
         gestureRecognizer.minimumPressDuration = 2
         mapView.addGestureRecognizer(gestureRecognizer)
+        
+        if selectedTitle != "" {
+            //core data'dan çekme işlemi
+            let appDelegate  = UIApplication.shared.delegate as! AppDelegate
+            let context  = appDelegate.persistentContainer.viewContext
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Places")
+            let idString = selectedTitleID!.uuidString
+            fetchRequest.predicate = NSPredicate(format: "id = %@", idString)  //filtreleme işlemi
+            fetchRequest.returnsObjectsAsFaults=false
+            
+            do{
+                let results = try context.fetch(fetchRequest)
+                if results.count > 0{
+                    for result in results as! [NSManagedObject] {
+                        
+                        if let title = result.value(forKey: "title") as? String{
+                            annotationTitle = title
+                            if let subtitle = result.value(forKey: "subtitle") as? String{
+                                annotationSubtitle = subtitle
+                                if let latitude = result.value(forKey: "latitude") as? Double{
+                                    annotationLatitude = latitude
+                                    if let longitude = result.value(forKey: "longitude") as? Double{
+                                        annotationLongitude = longitude
+                                        
+                                        let annotation = MKPointAnnotation()
+                                        annotation.title = annotationTitle
+                                        annotation.subtitle = annotationSubtitle
+                                        let coordinates = CLLocationCoordinate2D(latitude: annotationLatitude, longitude: annotationLongitude)
+                                        annotation.coordinate = coordinates
+                                        mapView.addAnnotation(annotation)
+                                        locatioNameTxt.text = annotationTitle
+                                        commenTxt.text = annotationSubtitle
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+            }catch{
+                print("error")
+            }
+        }else{
+            //add new data
+        }
                                             
     }
     
@@ -57,6 +113,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if selectedTitle == "" {
         //enlem boylam
         let locations = CLLocationCoordinate2D(latitude: locations[0].coordinate.latitude, longitude: locations[0].coordinate.longitude)
         //zoom işlemi
@@ -64,7 +121,9 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         
         //belirtilen enlem ve boylamı zoomlayacak harita
         let region = MKCoordinateRegion(center: locations, span: span)
-        mapView.setRegion(region, animated: true)
+            mapView.setRegion(region, animated: true)
+            
+        }
     }
     
     @IBAction func saveButtonClicked(_ sender: Any) {

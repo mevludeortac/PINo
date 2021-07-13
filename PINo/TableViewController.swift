@@ -15,6 +15,9 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     @IBOutlet weak var tableView: UITableView!
     var titleArray = [String]()
     var idArray = [UUID]()
+    
+    var choosenTitle = ""
+    var choosenTitleID: UUID?
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -22,10 +25,12 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         
         navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addButtonClicked))
+        
         getData()
 
     }
     @objc func addButtonClicked(){
+        choosenTitle = ""
         performSegue(withIdentifier: "toViewController", sender: nil)
     }
     
@@ -37,7 +42,20 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         cell.textLabel?.text = titleArray[indexPath.row]
         return cell
     }
-
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        choosenTitleID = idArray[indexPath.row]
+        choosenTitle = titleArray[indexPath.row]
+        performSegue(withIdentifier: "toViewController", sender: nil)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "toViewController" {
+            let destinationVC = segue.destination as! ViewController
+            destinationVC.selectedTitle = choosenTitle
+            destinationVC.selectedTitleID = choosenTitleID
+        }
+    }
     
     func getData(){
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -68,3 +86,4 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
     }
 }
+
