@@ -62,5 +62,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Uygulamayı kullanırken konumuzunu daha iyi saptayabilmek için izin vermeniz gerekmektedir.</string>
 </dict>
 </plist>

@@ -14,6 +14,7 @@
 		FCA36EB7269C844C00041617 /* PINo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FCA36EB5269C844C00041617 /* PINo.xcdatamodeld */; };
 		FCA36EB9269C845400041617 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCA36EB8269C845400041617 /* Assets.xcassets */; };
 		FCA36EBC269C845400041617 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCA36EBA269C845400041617 /* LaunchScreen.storyboard */; };
+		FCD0A68C269DDF9F00FB7D1C /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD0A68B269DDF9E00FB7D1C /* TableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		FCA36EB8269C845400041617 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FCA36EBB269C845400041617 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FCA36EBD269C845400041617 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCD0A68B269DDF9E00FB7D1C /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				FCA36EBA269C845400041617 /* LaunchScreen.storyboard */,
 				FCA36EBD269C845400041617 /* Info.plist */,
 				FCA36EB5269C844C00041617 /* PINo.xcdatamodeld */,
+				FCD0A68B269DDF9E00FB7D1C /* TableViewController.swift */,
 			);
 			path = PINo;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 				FCA36EB1269C844C00041617 /* ViewController.swift in Sources */,
 				FCA36EAD269C844C00041617 /* AppDelegate.swift in Sources */,
 				FCA36EAF269C844C00041617 /* SceneDelegate.swift in Sources */,
+				FCD0A68C269DDF9F00FB7D1C /* TableViewController.swift in Sources */,
 				FCA36EB7269C844C00041617 /* PINo.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
