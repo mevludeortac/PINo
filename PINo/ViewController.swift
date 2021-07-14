@@ -79,6 +79,12 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                                         mapView.addAnnotation(annotation)
                                         locatioNameTxt.text = annotationTitle
                                         commenTxt.text = annotationSubtitle
+                                        //lokasyon güncellemelerini durdurur, sadece pinin bulunduğu bölgeye gider
+                                        locationManager.stopUpdatingLocation()
+                                        
+                                        let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+                                        let region = MKCoordinateRegion.init(center: coordinates, span: span)
+                                        mapView.setRegion(region, animated: true)
                                     }
                                 }
                             }
