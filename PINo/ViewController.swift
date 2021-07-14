@@ -130,6 +130,10 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             mapView.setRegion(region, animated: true)
             
         }
+        else{
+            //seçilen title boş ise saptanan konuma
+            //değilse pinlenen konuma gider
+        }
     }
     
     @IBAction func saveButtonClicked(_ sender: Any) {
@@ -149,7 +153,8 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }catch{
             print("error")
         }
-        
+        NotificationCenter.default.post(name: NSNotification.Name("new place"), object: nil)
+        navigationController?.popViewController(animated: true)
     }
 }
 
