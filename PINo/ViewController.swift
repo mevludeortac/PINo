@@ -83,7 +83,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
                                         locationManager.stopUpdatingLocation()
                                         
                                         let span = MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
-                                        let region = MKCoordinateRegion.init(center: coordinates, span: span)
+                                        let region = MKCoordinateRegion(center: coordinates, span: span)
                                         mapView.setRegion(region, animated: true)
                                     }
                                 }
