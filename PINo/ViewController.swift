@@ -162,24 +162,26 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     
     //pinimize eklediğimiz butona yazdığımız fonksiyon
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        if selectedTitle != ""{
-            
-            var requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
+        if selectedTitle != "" {
+            let  requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
+                        //navigasyonumuzu çalıştırmak için gerekli olan objeleri alabilmemiz için
             CLGeocoder().reverseGeocodeLocation(requestLocation) { (placemarks, error) in //closure
-                
-                if let placemark = placemarks {
+                if let placemark = placemarks{
                     if placemark.count > 0 {
-                        let newPlaceMark = MKPlacemark(placemark: placemark[0])
-                        let item = MKMapItem(placemark: newPlaceMark)
+                        //map item oluşturabilmemiz için ise place mark denilen bir objeye ihtiyacımız var
+                       let newPlaceMark = MKPlacemark(placemark: placemark[0])
+                        let item = MKMapItem(placemark: newPlaceMark) //navigasyonu açabilmemiz için mapitem oluşturmalıyız
                         item.name = self.annotationTitle
-                        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault]
+                        //oluşturduğumuz mapitem içerisinde hangi modu kullancağımızı belirtiyoruz
+                        let launchOptions = [MKLaunchOptionsDirectionsModeKey:MKLaunchOptionsDirectionsModeDefault]
                         item.openInMaps(launchOptions: launchOptions)
                         
                     }
                 }
-
             }
-            }
+            
+        } else {
+            
         }
     }
     
@@ -204,4 +206,7 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         navigationController?.popViewController(animated: true)
     }
 }
+    
+ 
+
 
