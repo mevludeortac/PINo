@@ -136,6 +136,53 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         }
     }
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        //kullanıcının mevcut konumunu pinle göstermemesi için mevcut konumu nil döndürüyoruz
+        if annotation is MKUserLocation {
+            return nil
+        }
+        let reuseID = "annotation"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseID) as? MKPinAnnotationView
+        
+        //pinview'ın oluşturulmadığı durumlarda
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
+            pinView?.canShowCallout = true
+            pinView?.tintColor = UIColor.purple
+            
+            //pinimize buton ekleme işlemi
+            let button = UIButton(type: UIButton.ButtonType.detailDisclosure)
+            pinView?.rightCalloutAccessoryView = button
+            
+        } else{
+            pinView?.annotation = annotation
+        }
+        return pinView
+    }
+    
+    //pinimize eklediğimiz butona yazdığımız fonksiyon
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if selectedTitle != ""{
+            
+            var requestLocation = CLLocation(latitude: annotationLatitude, longitude: annotationLongitude)
+            CLGeocoder().reverseGeocodeLocation(requestLocation) { (placemarks, error) in //closure
+                
+                if let placemark = placemarks {
+                    if placemark.count > 0 {
+                        let newPlaceMark = MKPlacemark(placemark: placemark[0])
+                        let item = MKMapItem(placemark: newPlaceMark)
+                        item.name = self.annotationTitle
+                        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDefault]
+                        item.openInMaps(launchOptions: launchOptions)
+                        
+                    }
+                }
+
+            }
+            }
+        }
+    }
+    
     @IBAction func saveButtonClicked(_ sender: Any) {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
